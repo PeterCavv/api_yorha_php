@@ -11,17 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_androids', function (Blueprint $table) {
+        Schema::create('androids', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('short_name');
-            $table->foreign('type')->references('name')->on('types');
-            $table->integer('number_type');
-            $table->foreign('model')->references('name')->on('models');
-            $table->foreign('appearance')->references('name')->on('appearances');
-            $table->foreign('status')->references('name')->on('statuses');
+            $table->string('short_name')->nullable();
+            $table->unsignedBigInteger('type');
+            $table->foreign('type')->references('id')->on('types');
+            $table->integer('type_number');
+            $table->unsignedBigInteger('model');
+            $table->foreign('model')->references('id')->on('models');
+            $table->unsignedBigInteger('appearance');
+            $table->foreign('appearance')->references('id')->on('appearances');
+            $table->unsignedBigInteger('status');
+            $table->foreign('status')->references('id')->on('statuses');
             $table->text('desc')->nullable();
-            $table->foreignId('assigned_operator')->constrained('operators');
+            $table->unsignedBigInteger('assigned_operator')->nullable();
+            $table->foreign('assigned_operator')->references('id')
+                ->on('androids');
             $table->timestamps();
         });
     }
@@ -31,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_androids');
+        Schema::dropIfExists('androids');
     }
 };

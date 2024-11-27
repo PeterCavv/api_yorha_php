@@ -28,8 +28,30 @@ class Android extends Model
         return $this->belongsTo(Status::class);
     }
 
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function androidOperator()
     {
-        return $this->belongsTo(AndroidOperator::class);
+        return $this->belongsTo(Android::class, 'assigned_operator');
+    }
+
+    public function androidsAssigned()
+    {
+        return $this->hasMany(Android::class, 'assigned_operator');
+    }
+
+    public static function create(array $android): Android{
+        $newAndroid = new self();
+        $newAndroid->name = $android['name'];
+        $newAndroid->model = $android['model'];
+        $newAndroid->type = $android['type'];
+        $newAndroid->type_number = $android['type_number'];
+        $newAndroid->appearance = $android['appearance'];
+        $newAndroid->status = $android['status'];
+        $newAndroid->desc = $android['desc'];
+        $newAndroid->save();
+        return $newAndroid;
     }
 }

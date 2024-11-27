@@ -10,7 +10,6 @@ class Types extends Model
     use HasFactory;
     protected $fillable = ['name', 'resume', 'desc'];
 
-
     public static function create(array $type): Types{
         $newType = new self();
         $newType->name = $type['name'];
