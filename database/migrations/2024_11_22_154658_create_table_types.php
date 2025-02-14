@@ -16,10 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->char('resume');
-            $table->text('desc');
+            $table->text('description');
             $table->timestamps();
         });
-
     }
 
     /**

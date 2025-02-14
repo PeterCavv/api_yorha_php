@@ -14,20 +14,13 @@ return new class extends Migration
         Schema::create('androids', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('short_name')->nullable();
-            $table->unsignedBigInteger('type');
-            $table->foreign('type')->references('id')->on('types');
+            $table->string('resume_name')->nullable();
+            $table->foreignId('state_id')->constrained();
+            $table->foreignId('model_id')->constrained();
+            $table->foreignId('type_id')->constrained();
             $table->integer('type_number');
-            $table->unsignedBigInteger('model');
-            $table->foreign('model')->references('id')->on('models');
-            $table->unsignedBigInteger('appearance');
-            $table->foreign('appearance')->references('id')->on('appearances');
-            $table->unsignedBigInteger('status');
-            $table->foreign('status')->references('id')->on('statuses');
-            $table->text('desc')->nullable();
-            $table->unsignedBigInteger('assigned_operator')->nullable();
-            $table->foreign('assigned_operator')->references('id')
-                ->on('androids');
+            $table->foreignId('appearance_id')->constrained();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
