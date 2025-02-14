@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Android extends Model
 {
-    protected $fillable = ['name', 'short_name', 'type','number_type', 'model', 'appearance',
-        'status', 'desc', 'assigned_operator'];
+    protected $fillable = ['name', 'short_name', 'type','number_type', 'model_id', 'appearance_id',
+        'state_id', 'description_id', 'assigned_operator'];
     public function model()
     {
         return $this->belongsTo(Models::class);
@@ -28,29 +28,15 @@ class Android extends Model
         return $this->belongsTo(Status::class);
     }
 
-    /**
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function androidOperator()
-    {
-        return $this->belongsTo(Android::class, 'assigned_operator');
-    }
-
-    public function androidsAssigned()
-    {
-        return $this->hasMany(Android::class, 'assigned_operator');
-    }
-
     public static function create(array $android): Android{
         $newAndroid = new self();
         $newAndroid->name = $android['name'];
-        $newAndroid->model = $android['model'];
-        $newAndroid->type = $android['type'];
+        $newAndroid->model = $android['model_id'];
+        $newAndroid->type = $android['type_id'];
         $newAndroid->type_number = $android['type_number'];
-        $newAndroid->appearance = $android['appearance'];
-        $newAndroid->status = $android['status'];
-        $newAndroid->desc = $android['desc'];
+        $newAndroid->appearance = $android['appearance_id'];
+        $newAndroid->status = $android['state_id'];
+        $newAndroid->desc = $android['description'];
         $newAndroid->save();
         return $newAndroid;
     }
