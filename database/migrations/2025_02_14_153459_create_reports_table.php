@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->text('body');
             $table->timestamp('published_at');
             $table->foreignId('android_id')->constrained();
+            $table->timestamps();
         });
     }
 

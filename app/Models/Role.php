@@ -10,4 +10,12 @@ class Role extends Model
         'name',
         'description'
     ];
+
+    /**
+     * A role can be assigned to many Users.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
 }
