@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Android;
 use App\Models\Executioner;
+use App\Models\History;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -30,6 +31,11 @@ class DatabaseSeeder extends Seeder
         Executioner::factory()->create([
             'android_id' => '3',
             'equipment_id' => '1',
+        ]);
+
+        History::factory()->create([
+            'executioner_id' => '1',
+            'android_id' => '2',
         ]);
 
         User::factory()->create([

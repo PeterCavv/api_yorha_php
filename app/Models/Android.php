@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Android extends Model
 {
     protected $fillable = ['name', 'short_name', 'type','number_type', 'model_id', 'appearance_id',
-        'state_id', 'description_id'];
+        'state_id', 'description'];
 
     /**
      * Androids can only have one model.
@@ -53,6 +53,15 @@ class Android extends Model
     public function state()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    /**
+     * An Android can only be in one History.
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function history()
+    {
+        return $this->hasOne(History::class);
     }
 
     public static function create(array $android): Android{
