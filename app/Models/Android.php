@@ -45,6 +45,14 @@ class Android extends Model
         return $this->belongsTo(Appearance::class);
     }
 
+    public function executioner(){
+        return $this->hasOne(Executioner::class);
+    }
+
+    public function operator(){
+        return $this->hasOne(Operator::class);
+    }
+
     /**
      * Androids can only have one state. The functionality of the Android depends
      * on the state.
