@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_androids', function (Blueprint $table) {
+        Schema::create('androids', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('short_name');
-            $table->foreign('type')->references('name')->on('types');
-            $table->integer('number_type');
-            $table->foreign('model')->references('name')->on('models');
-            $table->foreign('appearance')->references('name')->on('appearances');
-            $table->foreign('status')->references('name')->on('statuses');
-            $table->text('desc')->nullable();
-            $table->foreignId('assigned_operator')->constrained('operators');
+            $table->string('resume_name')->nullable();
+            $table->foreignId('state_id')->constrained();
+            $table->foreignId('model_id')->constrained();
+            $table->foreignId('type_id')->constrained();
+            $table->integer('type_number');
+            $table->foreignId('appearance_id')->constrained();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_androids');
+        Schema::dropIfExists('androids');
     }
 };

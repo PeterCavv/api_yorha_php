@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ImportTypesSeeder extends Seeder
 {
+    /**
+     * Recoge la información del json alojado el storages para coger cada objeto
+     * del mismo y guardarlo como type en la base de datos.
+     * @return void
+     */
     public function run()
     {
         $filePath = Storage::path('yorha.types.json');

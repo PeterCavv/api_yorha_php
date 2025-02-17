@@ -12,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('states', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
         });
 
-        DB::table('statuses')->insert([
+        DB::table('states')->insert([
             ['name' => 'Operational'],
             ['name' => 'Out of Service'],
         ]);
