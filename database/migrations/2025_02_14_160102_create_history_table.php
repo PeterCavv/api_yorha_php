@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('executor_id')->constrained();
+            $table->foreignId('executioner_id')->constrained();
             $table->foreignId('android_id')->constrained();
             $table->timestamp('execution_date');
             $table->text('summary');

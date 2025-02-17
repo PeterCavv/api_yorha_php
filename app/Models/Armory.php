@@ -12,4 +12,8 @@ class Armory extends Model
     public function weaponType(){
         return $this->belongsTo(WeaponType::class);
     }
+
+    public function executioner(){
+        return $this->hasMany(Executioner::class , 'equipment_id');
+    }
 }
