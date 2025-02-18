@@ -18,20 +18,16 @@ class History extends Model
         return $this->belongsTo(Android::class);
     }
 
-    /**
-     * A History have only an executioner.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+
     public function executioner()
     {
-        return $this->belongsTo(Executioner::class);
+        return $this->belongsToMany(Executioner::class);
     }
 
-    public function create(array $history): History{
+    public static function create(array $history): History{
         $newHistory = new self();
         $newHistory = $newHistory->fill($history);
         $newHistory->save();
-
         return $newHistory;
     }
 }

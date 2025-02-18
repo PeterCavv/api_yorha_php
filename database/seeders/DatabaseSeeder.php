@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Commander White', 'model_id' => '2', 'type_id' => '9', 'type_number' => '0', 'appearance_id' => '1', 'state_id' => '1', 'description' => 'Also know as just Commander, determines all large-scale strategies as well as directs, deploys, and oversees all units from her station at the Bunker outpost in Earths orbit.'],
             ['name' => 'Pepa', 'model_id' => '2', 'type_id' => '3', 'type_number' => '0', 'appearance_id' => '2', 'state_id' => '2', 'description' => 'Also know as just Commander, determines all large-scale strategies as well as directs, deploys, and oversees all units from her station at the Bunker outpost in Earths orbit.'],
             ['name' => 'YoRHa No.1 Type E', 'model_id' => '1', 'type_id' => '6', 'type_number' => '1', 'appearance_id' => '2', 'state_id' => '1', 'description' => 'Also know as just Commander, determines all large-scale strategies as well as directs, deploys, and oversees all units from her station at the Bunker outpost in Earths orbit.'],
+            ['name' => 'YoRHa No.2 Type E', 'model_id' => '1', 'type_id' => '6', 'type_number' => '2', 'appearance_id' => '2', 'state_id' => '1', 'description' => 'Also know as just Commander, determines all large-scale strategies as well as directs, deploys, and oversees all units from her station at the Bunker outpost in Earths orbit.'],
             ['name' => 'YoRHa No.1 Type O', 'model_id' => '1', 'type_id' => '5', 'type_number' => '1', 'appearance_id' => '2', 'state_id' => '1', 'description' => 'Also know as just Commander, determines all large-scale strategies as well as directs, deploys, and oversees all units from her station at the Bunker outpost in Earths orbit.'],
         ];
 
@@ -31,19 +32,27 @@ class DatabaseSeeder extends Seeder
             Android::create($android);
         }
 
-        Executioner::factory()->create([
-            'android_id' => '3',
-            'equipment_id' => '1',
-        ]);
+        $executionera = [
+            ['android_id' => '3', 'equipment_id' => '1'],
+            ['android_id' => '4', 'equipment_id' => '1']
+        ];
+
+        foreach ($executionera as $executioner) {
+            Executioner::create($executioner);
+        }
 
         Operator::factory()->create([
             'android_id' => '4',
         ]);
 
-        History::factory()->create([
-            'executioner_id' => '1',
-            'android_id' => '2',
-        ]);
+        $histories = [
+            ['executioner_id' => '1', 'android_id' => '2'],
+            ['executioner_id' => '2', 'android_id' => '2'],
+        ];
+
+        foreach ($histories as $history) {
+            History::create($history);
+        }
 
         User::factory()->create([
             'name' => 'Test User',
