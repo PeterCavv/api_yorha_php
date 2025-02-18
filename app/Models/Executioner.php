@@ -35,7 +35,7 @@ class Executioner extends Model
         return $this->hasMany(History::class);
     }
 
-    public function create(array $executioner): Executioner
+    public static function create(array $executioner): Executioner
     {
         $newExecutioner = new self();
         $newExecutioner = $newExecutioner->fill($executioner);
