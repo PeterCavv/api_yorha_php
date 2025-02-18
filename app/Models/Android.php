@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Android extends Model
 {
     protected $fillable = ['name', 'short_name', 'type','number_type', 'model_id', 'appearance_id',
-        'state_id', 'description'];
+        'status_id', 'description'];
 
     /**
      * Androids can only have one model.
@@ -58,7 +58,7 @@ class Android extends Model
      * on the state.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function state()
+    public function status()
     {
         return $this->belongsTo(Status::class);
     }

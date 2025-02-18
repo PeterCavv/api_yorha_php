@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('resume_name')->nullable();
-            $table->foreignId('state_id')->constrained();
+            $table->foreignId('status_id')->constrained();
             $table->foreignId('model_id')->constrained();
             $table->foreignId('type_id')->constrained();
             $table->integer('type_number');
