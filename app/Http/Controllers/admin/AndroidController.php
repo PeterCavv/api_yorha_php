@@ -5,9 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAndroidRequest;
 use App\Models\Android;
-use App\Models\Status;
-use App\Models\Types;
-use Request;
 
 class AndroidController extends Controller
 {
