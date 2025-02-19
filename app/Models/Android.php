@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Requests\StoreAndroidRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class Android extends Model
 {
-    protected $fillable = ['name', 'short_name', 'type','number_type', 'model_id', 'appearance_id',
+    protected $fillable = ['name', 'resume_name', 'type_id', 'type_number', 'model_id', 'appearance_id',
         'status_id', 'description'];
 
     /**
@@ -77,5 +78,27 @@ class Android extends Model
         $newAndroid = $newAndroid->fill($android);
         $newAndroid->save();
         return $newAndroid;
+    }
+
+    /**
+     * Creates a name for the Android.
+     * @param StoreAndroidRequest $request
+     * @param Android $android
+     * @return array
+     */
+    public static function createName($typeId): array
+    {
+        $typeName = self::$type_id;
+
+        $charType = substr($typeName, 0, 1);
+
+        $typeNumber = self::where('type_id', $typeId)->max() ?? 0;
+        $typeNumber++;
+
+        return [
+            'name'        => "YoRHa No. {$typeNumber} Type {$charType}",
+            'resume_name' => "{$typeNumber}{$charType}",
+            'type_number' => $typeNumber
+        ];
     }
 }

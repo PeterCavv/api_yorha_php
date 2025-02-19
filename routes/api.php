@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AndroidController;
+use App\Http\Controllers\admin\AndroidController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
