@@ -8,18 +8,6 @@ use App\Models\Android;
 
 class AndroidController extends Controller
 {
-    public function index()
-    {
-        $androids = Android::with([
-            'model:id,name',
-            'type:id,name',
-            'appearance:id,name',
-            'status:id,name',
-        ])->paginate(10);
-
-        return response()->json($androids);
-    }
-
     public function store(StoreAndroidRequest $request) {
         $androidData = $request->validated();
 
