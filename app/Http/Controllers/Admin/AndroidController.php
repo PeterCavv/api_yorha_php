@@ -8,9 +8,6 @@ use App\Models\Android;
 
 class AndroidController extends Controller
 {
-    public function __construct(){
-        return response()->json('Hola');
-    }
     public function index()
     {
         $androids = Android::with([
@@ -29,5 +26,12 @@ class AndroidController extends Controller
         $android = Android::create($androidData);
 
         return response()->json($android, 201);
+    }
+
+    public function destroy($id) {
+        $android = Android::findOrFail($id);
+        $android->delete();
+
+        return response()->json('Android deleted successfully', 204);
     }
 }

@@ -6,15 +6,19 @@ use App\Http\Requests\StoreAndroidRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Android extends Model
 {
+    use softDeletes;
+
     protected $fillable = ['name', 'resume_name', 'type_id',
         'type_number', 'model_id', 'appearance_id', 'status_id',
         'description'];
 
     protected $hidden = ['created_at', 'updated_at', 'model_id',
-        'type_id', 'status_id', 'appearance_id'];
+        'type_id', 'status_id', 'appearance_id',
+        'deleted_at'];
 
     /**
      * Androids can only have one model.

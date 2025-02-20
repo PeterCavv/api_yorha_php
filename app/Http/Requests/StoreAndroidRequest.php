@@ -14,7 +14,7 @@ class StoreAndroidRequest extends FormRequest
             'type_id' => 'required|integer|exists:types,id',
             'model_id' => 'required|integer|exists:models,id',
             'appearance_id' => 'required|integer|exists:appearances,id',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string|max:500',
         ];
     }
 

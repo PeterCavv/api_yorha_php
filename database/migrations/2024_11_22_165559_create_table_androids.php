@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained();
             $table->foreignId('model_id')->constrained();
             $table->foreignId('type_id')->constrained();
-            $table->integer('type_number');
+            $table->integer('type_number')->default('0');
             $table->foreignId('appearance_id')->constrained();
             $table->text('description')->nullable();
             $table->timestamps();
