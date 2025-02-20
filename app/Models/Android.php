@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Requests\StoreAndroidRequest;
+use App\Http\Requests\Androids\StoreAndroidRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
