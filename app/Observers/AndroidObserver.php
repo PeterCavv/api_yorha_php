@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class AndroidObserver
 {
-    protected function creating(Android $android): void
+    public function creating(Android $android): void
     {
         $model = Models::where('id', $android->model_id)->first();
 
@@ -33,7 +33,7 @@ class AndroidObserver
      * @param Android $android
      * @return void
      */
-    protected function created(Android $android)
+    public function created(Android $android)
     {
         $typeOperator = Types::where('name', '=', 'Operator')->first();
         $typeExecutioner = Types::where('name', '=', 'Executioner')->first();
@@ -43,7 +43,7 @@ class AndroidObserver
                 'android_id' => $android->id,
             ]);
         } else if($android->type_id == optional($typeExecutioner)->id ){
-            $weapon = Armory::where('name', 'YoRHa-issue Blade')->first();
+            $weapon = Armory::where('name', '=', 'YoRHa-issue Blade')->first();
 
             Executioner::create([
                 'android_id' => $android->id,

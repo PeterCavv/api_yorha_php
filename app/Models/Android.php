@@ -4,44 +4,50 @@ namespace App\Models;
 
 use App\Http\Requests\StoreAndroidRequest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Android extends Model
 {
-    protected $fillable = ['name', 'resume_name', 'type_id', 'type_number', 'model_id', 'appearance_id',
-        'status_id', 'description'];
+    protected $fillable = ['name', 'resume_name', 'type_id',
+        'type_number', 'model_id', 'appearance_id', 'status_id',
+        'description'];
+
+    protected $hidden = ['created_at', 'updated_at', 'model_id',
+        'type_id', 'status_id', 'appearance_id'];
 
     /**
      * Androids can only have one model.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function model()
+    public function model(): BelongsTo
     {
         return $this->belongsTo(Models::class);
     }
 
     /**
      * Androids can only have one type.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function type()
+    public function type(): BelongsTo
     {
         return $this->belongsTo(Types::class);
     }
 
     /**
      * One Android can be the creator of many reports.
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function report()
+    public function report(): HasMany
     {
         return $this->hasMany(Report::class);
     }
 
     /**
      * Androids can only have one appearance.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function appearance()
+    public function appearance(): BelongsTo
     {
         return $this->belongsTo(Appearance::class);
     }
@@ -57,7 +63,7 @@ class Android extends Model
     /**
      * Androids can only have one state. The functionality of the Android depends
      * on the state.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function status()
     {
@@ -86,17 +92,18 @@ class Android extends Model
      * @param Android $android
      * @return array
      */
-    public static function createName($typeId): array
+    public static function createName(Android $android): array
     {
-        $typeName = self::$type_id;
+        $type = Types::where('id', '=', $android->type_id)->first();
+        $typeName = $type->name;
 
         $charType = substr($typeName, 0, 1);
 
-        $typeNumber = self::where('type_id', $typeId)->max() ?? 0;
+        $typeNumber = Android::where('type_id', '=', $type->id)->count() ?? 0;
         $typeNumber++;
 
         return [
-            'name'        => "YoRHa No. {$typeNumber} Type {$charType}",
+            'name'        => "YoRHa No.{$typeNumber} Type {$charType}",
             'resume_name' => "{$typeNumber}{$charType}",
             'type_number' => $typeNumber
         ];

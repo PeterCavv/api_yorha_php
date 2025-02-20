@@ -9,6 +9,8 @@ class Executioner extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['android_id', 'equipment_id'];
+
     /**
      * An Executioner is an Android, so only can be related to one.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
