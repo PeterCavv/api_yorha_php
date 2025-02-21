@@ -29,13 +29,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->renderable(function (ValidationException $e, Request $request) {
                 return response()->json([
-                    'error' => 'La validación falló',
+                    'error' => 'Validation failed',
                     'message' => $e->getMessage(),
                     'errors' => $e->errors(),
                 ], 422);
         });
 
         return response()->json([
-            'error' => 'Error interno del servidor'
+            'error' => 'Internal Server Error'
         ], 500);
     })->create();

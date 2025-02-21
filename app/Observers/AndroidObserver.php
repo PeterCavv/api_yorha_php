@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Android;
 use App\Models\Armory;
+use App\Models\AssignedAndroids;
 use App\Models\Executioner;
 use App\Models\Models;
 use App\Models\Operator;
@@ -87,7 +88,15 @@ class AndroidObserver
      */
     public function deleting(Android $android): void
     {
-        $operator = Operator::where('android_id', '=', $android->id)->first();
+        $operator = Operator::where('android_id', $android)->first();
+        $assignedAndroids = AssignedAndroids::where('android_id', $android->id)->first();
+
+        if($assignedAndroids->operator_id === $operator->id
+            || $assignedAndroids->android_id === $android->id) {
+            throw ValidationException::withMessages([
+                'name' => 'This Android is assigned/have androids assigned.'
+            ]);
+        }
 
         $status = Status::where('name', '=', 'Out Of Service')->first();
 
