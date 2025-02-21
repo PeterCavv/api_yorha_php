@@ -13,6 +13,10 @@ class Operator extends Model
         return $this->belongsTo(Android::class);
     }
 
+    public function assignedAndroid(){
+        return $this->hasMany(AssignedAndroids::class);
+    }
+
     public function create(array $operator): Operator
     {
         $newOperator = new self();

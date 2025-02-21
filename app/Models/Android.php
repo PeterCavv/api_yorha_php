@@ -64,6 +64,11 @@ class Android extends Model
         return $this->hasOne(Operator::class);
     }
 
+    public function assignedAndroid()
+    {
+        return $this->hasOne(AssignedAndroids::class);
+    }
+
     /**
      * Androids can only have one state. The functionality of the Android depends
      * on the state.
