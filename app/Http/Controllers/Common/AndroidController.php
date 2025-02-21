@@ -7,6 +7,10 @@ use App\Models\Android;
 
 class AndroidController extends Controller
 {
+    /**
+     * Get all the operational androids.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $androids = Android::with([
@@ -19,6 +23,11 @@ class AndroidController extends Controller
         return response()->json($androids);
     }
 
+    /**
+     * Get an Android searched by its ID.
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id){
         $android = Android::with(['id', '=', $id])->first();
 

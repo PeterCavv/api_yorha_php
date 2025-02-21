@@ -13,10 +13,15 @@ use Illuminate\Validation\ValidationException;
 
 class AndroidObserver
 {
+    /**
+     * Check if everything is okay before the android is created.
+     * @param Android $android
+     * @return void
+     */
     public function creating(Android $android): void
     {
-        $model = Models::where('id', $android->model_id)->first();
-        $type = Types::where('id', $android->type_id)->first();
+        $model = Models::findOrFail($android->model_id);
+        $type = Types::findOrFail($android->type_id);
 
         if($model->name === 'Special' && blank($android->name)){
             throw ValidationException::withMessages([
@@ -24,15 +29,28 @@ class AndroidObserver
             ]);
         }
 
-        if(blank($android->name)){
-            $createdName = Android::createName($android);
-            $android->fill($createdName);
+        if($model->name !== 'Special' && !blank($android->name)){
+            throw ValidationException::withMessages([
+                'name' => 'You cannot create a YoRHa model with a name. The name will
+                    be created based on its data.'
+            ]);
         }
 
         if($model->name === 'Special' && $type->name != 'NoType'){
             throw ValidationException::withMessages([
                 'name' => 'An Special Android model must be assigned with NoType type.'
             ]);
+        }
+
+        if($type->name === 'NoType' && (blank($android->name) || $model->name !== 'Special')){
+            throw ValidationException::withMessages([
+                'name' => 'Several validations are violated in this petition.'
+            ]);
+        }
+
+        if(blank($android->name)){
+            $createdName = Android::createName($android);
+            $android->fill($createdName);
         }
 
     }
@@ -61,11 +79,21 @@ class AndroidObserver
         }
     }
 
+    /**
+     * Check if the android can be deleted. Change the status of the android before
+     * the android is deleted.
+     * @param Android $android
+     * @return void
+     */
     public function deleting(Android $android): void
     {
+        $operator = Operator::where('android_id', '=', $android->id)->first();
+
         $status = Status::where('name', '=', 'Out Of Service')->first();
 
         $android->status_id = $status->id;
         $android->save();
+
     }
+
 }

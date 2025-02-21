@@ -4,6 +4,8 @@ use App\Http\Middleware\AlwaysAcceptJsonMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,5 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->prependToGroup('api', AlwaysAcceptJsonMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->renderable(function (ValidationException $e, Request $request) {
+                return response()->json([
+                    'error' => 'La validación falló',
+                    'message' => $e->getMessage(),
+                    'errors' => $e->errors(),
+                ], 422);
+        });
+
+        return response()->json([
+            'error' => 'Error interno del servidor'
+        ], 500);
     })->create();

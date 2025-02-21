@@ -9,7 +9,7 @@ class UpdateAndroidRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status_id' => 'required|integer|exists:statuses,id',
+            'appearance_id' => 'nullable|int|exists:appearances,id',
             'description' => 'nullable|string|max:500',
         ];
     }
