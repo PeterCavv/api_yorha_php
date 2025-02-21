@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Executioner extends Model
 {
@@ -11,9 +12,11 @@ class Executioner extends Model
 
     protected $fillable = ['android_id', 'equipment_id'];
 
+    protected $hidden = ['created_at', 'updated_at', 'android_id', 'equipment_id'];
+
     /**
      * An Executioner is an Android, so only can be related to one.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function android(){
         return $this->belongsTo(Android::class);
@@ -22,7 +25,7 @@ class Executioner extends Model
 
     /**
      * An Executioner can only have one weapon.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function equipment(){
         return $this->belongsTo(Armory::class);
