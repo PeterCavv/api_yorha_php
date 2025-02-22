@@ -30,4 +30,5 @@ class ExecutionerController extends Controller
 
         return response()->json($executioner);
     }
+    
 }

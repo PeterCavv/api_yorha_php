@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\Androids\StoreAndroidRequest;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,7 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Android extends Model
 {
-    use softDeletes;
+    use softDeletes, CascadeSoftDeletes;
+
+    //
+    protected array $cascadeDeletes = ['executioner'];
 
     protected $fillable = ['name', 'resume_name', 'type_id',
         'type_number', 'model_id', 'appearance_id', 'status_id',
@@ -108,7 +112,9 @@ class Android extends Model
 
         $charType = substr($typeName, 0, 1);
 
-        $typeNumber = Android::where('type_id', '=', $type->id)->count() ?? 0;
+        $typeNumber = Android::withTrashed()->where(
+            'type_id', '=', $type->id
+        )->count() ?? 0;
         $typeNumber++;
 
         return [
