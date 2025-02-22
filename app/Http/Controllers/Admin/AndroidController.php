@@ -5,45 +5,41 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Androids\StoreAndroidRequest;
 use App\Http\Requests\Androids\UpdateAndroidRequest;
+use App\Http\Resources\Androids\AndroidCollection;
+use App\Http\Resources\Androids\AndroidResource;
 use App\Models\Android;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 class AndroidController extends Controller
 {
     /**
      * Get all the androids, even those who are out of service.
-     * @return JsonResponse
+     * @return AndroidCollection
      */
     public function index(){
-        $androids = Android::withTrashed()->with([
-            'model:id,name',
-            'type:id,name',
-            'appearance:id,name',
-            'status:id,name',
-        ])->paginate(10);
+        $androids = Android::withTrashed()->paginate(5);
 
-        return response()->json($androids);
+        return new AndroidCollection($androids);
     }
 
     /**
      * Create and save a new Android into DB.
      * @param StoreAndroidRequest $request
-     * @return JsonResponse
+     * @return AndroidResource
      */
     public function store(StoreAndroidRequest $request) {
         $androidData = $request->validated();
 
         $android = Android::create($androidData);
 
-        return response()->json($android, 201);
+        return new AndroidResource($android);
     }
 
     /**
      * Update data
      * @param UpdateAndroidRequest $request
      * @param $id
-     * @return JsonResponse
+     * @return AndroidResource
      */
     public function update(UpdateAndroidRequest $request, $id) {
         $androidData = $request->validated();
@@ -54,7 +50,7 @@ class AndroidController extends Controller
 
         $android->update($updatedData);
 
-        return response()->json($android, 200);
+        return new AndroidResource($android);
     }
 
     public function destroy($id) {

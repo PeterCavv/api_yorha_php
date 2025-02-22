@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignedAndroidsRequest;
-use App\Http\Resources\Androids\AssignedAndroidsCollection;
-use App\Http\Resources\Androids\AssignedAndroidsResource;
+use App\Http\Resources\AssignedAndroids\AssignedAndroidsCollection;
+use App\Http\Resources\AssignedAndroids\AssignedAndroidsResource;
 use App\Models\AssignedAndroids;
 
 class AssignedAndroidsController extends Controller

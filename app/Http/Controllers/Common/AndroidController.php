@@ -3,34 +3,31 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Androids\AndroidCollection;
+use App\Http\Resources\Androids\AndroidResource;
 use App\Models\Android;
 
 class AndroidController extends Controller
 {
     /**
      * Get all the operational androids.
-     * @return \Illuminate\Http\JsonResponse
+     * @return AndroidCollection
      */
     public function index()
     {
-        $androids = Android::with([
-            'model:id,name',
-            'type:id,name',
-            'appearance:id,name',
-            'status:id,name',
-        ])->paginate(10);
+        $androids = Android::paginate(5);
 
-        return response()->json($androids);
+        return new AndroidCollection($androids);
     }
 
     /**
      * Get an Android searched by its ID.
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return AndroidResource
      */
     public function show($id){
-        $android = Android::with(['id', '=', $id])->first();
+        $android = Android::findOrFail($id);
 
-        return response()->json($android);
+        return new AndroidResource($android);
     }
 }
