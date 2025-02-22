@@ -14,7 +14,7 @@ class Android extends Model
     use softDeletes, CascadeSoftDeletes;
 
     //
-    protected array $cascadeDeletes = ['executioner'];
+    protected array $cascadeDeletes = ['executioner', 'operator'];
 
     protected $fillable = ['name', 'resume_name', 'type_id',
         'type_number', 'model_id', 'appearance_id', 'status_id',

@@ -16,6 +16,4 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
         $report->delete();
     }
-
-
 }
