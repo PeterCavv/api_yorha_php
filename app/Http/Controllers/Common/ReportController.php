@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Common;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reports\StoreReportRequest;
 use App\Http\Requests\Reports\UpdateReportRequest;
+use App\Http\Resources\Reports\ReportCollection;
+use App\Http\Resources\Reports\ReportResource;
 use App\Models\Report;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
@@ -13,36 +15,35 @@ class ReportController extends Controller
 {
     /**
      * Return all the reports.
-     * @return JsonResponse
+     * @return ReportCollection
      */
     public function index()
     {
-        $reports = Report::with([
-            'android:id,name'
-        ])->paginate(10);
-        return response()->json($reports);
+        $reports = Report::paginate(10);
+
+        return new ReportCollection($reports);
     }
 
     /**
      * Search a Report based on its ID.
      * @param $id
-     * @return JsonResponse
+     * @return ReportResource
      */
     public function show($id){
-        return response()->json(Report::findOrFail($id));
+        return new ReportResource(Report::findOrFail($id));
     }
 
     /**
      * Create a Report into DB.
      * @param StoreReportRequest $request
-     * @return JsonResponse
+     * @return ReportResource
      */
     public function store(StoreReportRequest $request){
         $reportData = $request->validated();
 
         $report = Report::create($reportData);
 
-        return response()->json($report, 201);
+        return new ReportResource($report);
     }
 
     /**
@@ -50,7 +51,7 @@ class ReportController extends Controller
      * thus the Android's ID cannot be changed.
      * @param UpdateReportRequest $request
      * @param $id
-     * @return JsonResponse
+     * @return ReportResource
      */
     public function update(UpdateReportRequest $request, $id)
     {
@@ -62,7 +63,7 @@ class ReportController extends Controller
 
         $report->update($updateData);
 
-        return response()->json($report, 200);
+        return new ReportResource($report);
     }
 
     /**

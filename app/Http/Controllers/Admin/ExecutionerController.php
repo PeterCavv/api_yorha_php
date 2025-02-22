@@ -30,6 +30,7 @@ class ExecutionerController extends Controller
      */
     public function show($id){
         $executioner = Executioner::findOrFail($id);
+
         return new ExecutionerResource($executioner);
     }
 

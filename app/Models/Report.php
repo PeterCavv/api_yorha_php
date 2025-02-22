@@ -25,7 +25,7 @@ class Report extends Model
     }
 
     public function android(){
-        return $this->belongsTo(Android::class);
+        return $this->belongsTo(Android::class)->withTrashed();
     }
 
     public static function create(array $report): Report{

@@ -18,8 +18,8 @@ class ExecutionerResource extends JsonResource
             'equipment' => [
                 'id' => $this->equipment_id,
                 'name' => $this->equipment ? $this->equipment->name : null,
-                'weapon_type' => $this->equipment->weapon_type ?
-                    $this->equipment->weapon_type->name : null,
+                'weapon_type' => $this->equipment->weaponType ?
+                    $this->equipment->weaponType->name : null,
             ]
         ];
     }
