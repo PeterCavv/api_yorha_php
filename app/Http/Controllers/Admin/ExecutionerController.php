@@ -19,6 +19,10 @@ class ExecutionerController extends Controller
         return response()->json($executioners);
     }
 
+    public function show($id){
+        return response()->json(Executioner::findOrFail($id));
+    }
+
     public function update(UpdateExecutionerRequest $request, $id){
         $executionerData = $request->validated();
 
@@ -30,5 +34,5 @@ class ExecutionerController extends Controller
 
         return response()->json($executioner);
     }
-    
+
 }

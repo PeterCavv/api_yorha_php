@@ -14,7 +14,7 @@ class Executioner extends Model
 
     protected $fillable = ['android_id', 'equipment_id'];
 
-    protected $hidden = ['created_at', 'updated_at', 'android_id', 'equipment_id'];
+    protected $hidden = ['created_at', 'updated_at', 'android_id', 'equipment_id', 'deleted_at'];
 
     /**
      * An Executioner is an Android, so only can be related to one.

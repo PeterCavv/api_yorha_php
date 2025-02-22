@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Androids\StoreAndroidRequest;
 use App\Http\Requests\Androids\UpdateAndroidRequest;
 use App\Models\Android;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 class AndroidController extends Controller
 {
     /**
      * Get all the androids, even those who are out of service.
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(){
         $androids = Android::withTrashed()->with([
@@ -28,7 +29,7 @@ class AndroidController extends Controller
     /**
      * Create and save a new Android into DB.
      * @param StoreAndroidRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(StoreAndroidRequest $request) {
         $androidData = $request->validated();
@@ -42,7 +43,7 @@ class AndroidController extends Controller
      * Update data
      * @param UpdateAndroidRequest $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdateAndroidRequest $request, $id) {
         $androidData = $request->validated();
