@@ -12,7 +12,7 @@ class Operator extends Model
 
     protected $fillable = ['android_id'];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'android_id'];
 
     public function android(){
         return $this->belongsTo(Android::class);
