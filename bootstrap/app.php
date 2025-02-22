@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Middleware\AlwaysAcceptJsonMiddleware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -33,6 +35,13 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => $e->getMessage(),
                     'errors' => $e->errors(),
                 ], 422);
+        });
+
+        $exceptions->renderable(function (NotFoundHttpException $e, $request) {
+                return response()->json([
+                    'error' => 'Not found',
+                    'message' => $e->getMessage(),
+                ], 404);
         });
 
         return response()->json([
