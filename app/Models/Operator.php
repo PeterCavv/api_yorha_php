@@ -10,7 +10,7 @@ class Operator extends Model
 {
     use HasFactory, softDeletes;
 
-    protected $fillable = ['android_id'];
+    protected $fillable = ['id', 'android_id'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'android_id'];
 

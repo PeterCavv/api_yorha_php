@@ -88,15 +88,15 @@ class AndroidObserver
      */
     public function deleting(Android $android): void
     {
-        $operator = Operator::where('android_id', $android)->first();
-        $assignedAndroids = AssignedAndroids::where('android_id', $android->id)->first();
+        $operator = Operator::withTrashed()->where('android_id', $android->id)->first();
+        $assignedAndroid = AssignedAndroids::where('android_id', $android->id)->first();
 
-        if($assignedAndroids && ($assignedAndroids->operator_id === $operator->id
-            || $assignedAndroids->android_id === $android->id)) {
-            throw ValidationException::withMessages([
-                'name' => 'This Android is assigned/have androids assigned.'
-            ]);
-        }
+        if($operator){
+            $operator->assignedAndroid()->each(function($assignedAndroid){
+                $assignedAndroid->delete();
+            });
+
+        } else $assignedAndroid?->delete();
 
         $status = Status::where('name', '=', 'Out Of Service')->first();
 
