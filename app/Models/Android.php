@@ -2,45 +2,60 @@
 
 namespace App\Models;
 
+use App\Http\Requests\Androids\StoreAndroidRequest;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Android extends Model
 {
-    protected $fillable = ['name', 'short_name', 'type','number_type', 'model_id', 'appearance_id',
-        'state_id', 'description'];
+    use softDeletes, CascadeSoftDeletes;
+
+    //
+    protected array $cascadeDeletes = ['executioner', 'operator'];
+
+    protected $fillable = ['name', 'resume_name', 'type_id',
+        'type_number', 'model_id', 'appearance_id', 'status_id',
+        'description'];
+
+    protected $hidden = ['created_at', 'updated_at', 'model_id',
+        'type_id', 'status_id', 'appearance_id',
+        'deleted_at'];
 
     /**
      * Androids can only have one model.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function model()
+    public function model(): BelongsTo
     {
         return $this->belongsTo(Models::class);
     }
 
     /**
      * Androids can only have one type.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function type()
+    public function type(): BelongsTo
     {
         return $this->belongsTo(Types::class);
     }
 
     /**
      * One Android can be the creator of many reports.
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function report()
+    public function report(): HasMany
     {
         return $this->hasMany(Report::class);
     }
 
     /**
      * Androids can only have one appearance.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function appearance()
+    public function appearance(): BelongsTo
     {
         return $this->belongsTo(Appearance::class);
     }
@@ -53,12 +68,17 @@ class Android extends Model
         return $this->hasOne(Operator::class);
     }
 
+    public function assignedAndroid()
+    {
+        return $this->hasOne(AssignedAndroids::class);
+    }
+
     /**
      * Androids can only have one state. The functionality of the Android depends
      * on the state.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function state()
+    public function status()
     {
         return $this->belongsTo(Status::class);
     }
@@ -77,5 +97,30 @@ class Android extends Model
         $newAndroid = $newAndroid->fill($android);
         $newAndroid->save();
         return $newAndroid;
+    }
+
+    /**
+     * Creates a name for the Android.
+     * @param StoreAndroidRequest $request
+     * @param Android $android
+     * @return array
+     */
+    public static function createName(Android $android): array
+    {
+        $type = Types::where('id', '=', $android->type_id)->first();
+        $typeName = $type->name;
+
+        $charType = substr($typeName, 0, 1);
+
+        $typeNumber = Android::withTrashed()->where(
+            'type_id', '=', $type->id
+        )->count() ?? 0;
+        $typeNumber++;
+
+        return [
+            'name'        => "YoRHa No.{$typeNumber} Type {$charType}",
+            'resume_name' => "{$typeNumber}{$charType}",
+            'type_number' => $typeNumber
+        ];
     }
 }

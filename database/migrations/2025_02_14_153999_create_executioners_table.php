@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('executioners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('android_id')->constrained();
+            $table->foreignId('android_id')->constrained()->onDelete('cascade');
             $table->foreignId('equipment_id')->constrained('armory');
             $table->timestamps();
         });

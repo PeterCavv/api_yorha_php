@@ -4,16 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operator extends Model
 {
-    use HasFactory;
+    use HasFactory, softDeletes;
+
+    protected $fillable = ['id', 'android_id'];
+
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'android_id'];
 
     public function android(){
         return $this->belongsTo(Android::class);
     }
 
-    public function create(array $operator): Operator
+    public function assignedAndroid(){
+        return $this->hasMany(AssignedAndroids::class);
+    }
+
+    public static function create(array $operator): Operator
     {
         $newOperator = new self();
         $newOperator = $newOperator->fill($operator);
