@@ -21,6 +21,13 @@ class HistoryController extends Controller
         return new HistoryCollection(History::all());
     }
 
+    /**
+     * Create a history. The history is going to be related to
+     * a pivot table where is going to save the history and
+     * the executioners.
+     * @param HistoryRequest $request
+     * @return HistoryResource
+     */
     public function store(HistoryRequest $request)
     {
         $validatedData = $request->validated();
@@ -30,7 +37,7 @@ class HistoryController extends Controller
             'android_id' => $validatedData['android_id'],
         ]);
 
-        $history->executioner()->attach($request['executioner_ids']);
+        $history->executioners()->attach($request['executioner_ids']);
 
         return new HistoryResource($history);
     }

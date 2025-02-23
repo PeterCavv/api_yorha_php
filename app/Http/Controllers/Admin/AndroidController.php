@@ -8,8 +8,12 @@ use App\Http\Requests\Androids\UpdateAndroidRequest;
 use App\Http\Requests\Executioners\ExecuteAndroidExecutionerRequest;
 use App\Http\Resources\Androids\AndroidCollection;
 use App\Http\Resources\Androids\AndroidResource;
+use App\Http\Resources\Histories\HistoryResource;
 use App\Models\Android;
+use App\Models\Executioner;
+use App\Models\History;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class AndroidController extends Controller
 {
@@ -57,11 +61,28 @@ class AndroidController extends Controller
     public function destroy(ExecuteAndroidExecutionerRequest $request, $id) {
         $validated = $request->validated();
 
-        $executionerIds = $validated['executioners_id'];
-
         $android = Android::findOrFail($id);
+        $executionerIds = $validated['executioner_ids'];
+
+        $invalidExecutioners = Executioner::whereIn('id', $executionerIds)
+            ->where('android_id', $android->id)
+            ->exists();
+
+        if($invalidExecutioners){
+            throw ValidationException::withMessages([
+                'executioner_id' => 'You cannot execute an Android with itself.'
+            ]);
+        }
+
+        $history = History::create([
+           'summary' => 'Android ' . $android->name . ' executed successfully.',
+            'android_id' => $android->id,
+        ]);
+
         $android->delete();
 
-        return response()->json('Android deleted successfully', 204);
+        $history->executioners()->attach($executionerIds);
+
+        return new HistoryResource($history);
     }
 }

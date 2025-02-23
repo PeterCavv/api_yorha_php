@@ -9,8 +9,8 @@ class ExecuteAndroidExecutionerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'executioners_id' => 'required|array',
-            'executioners_id.*' => 'integer|exists:executioners,id',
+            'executioner_ids' => 'required|array',
+            'executioner_ids.*' => 'integer|exists:executioners,id',
         ];
     }
 
