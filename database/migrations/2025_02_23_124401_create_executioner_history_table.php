@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('histories', function (Blueprint $table) {
+        Schema::create('executioner_history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('android_id')->constrained();
-            $table->text('summary')->nullable();
+            $table->foreignId('executioner_id')->constrained();
+            $table->foreignId('history_id')->constrained();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('histories');
+        Schema::dropIfExists('executioner_history');
     }
 };

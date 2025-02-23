@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Histories;
 
 use App\Http\Resources\Androids\AndroidResource;
-use App\Http\Resources\Executioners\ExecutionerCollection;
+use App\Http\Resources\Executioners\ExecutionerResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,10 +13,10 @@ class HistoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'executors' => ExecutionerCollection::collection($this->executioners),
-            'android_executed' => (new AndroidResource($this->android))->basicFormat(),
-            'execution_date' => $this->execution_date,
-            'summary' => $this->summary
+            'executioners' => ExecutionerResource::collection($this->executioner),
+            'android' => (new AndroidResource($this->android))->basicFormat(),
+            'summary' => $this->summary ?? null,
+            'executed_at' => $this->created_at,
         ];
     }
 }

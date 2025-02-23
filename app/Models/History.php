@@ -10,6 +10,8 @@ class History extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['android_id', 'summary'];
+
     /**
      * A History can only have one Android.
      * @return BelongsTo
@@ -22,7 +24,12 @@ class History extends Model
 
     public function executioner()
     {
-        return $this->belongsToMany(Executioner::class)->withTrashed();
+        return $this->belongsToMany(
+            Executioner::class,
+            'executioner_history',
+            'history_id',
+            'executioner_id'
+        )->withTrashed();
     }
 
     public static function create(array $history): History{

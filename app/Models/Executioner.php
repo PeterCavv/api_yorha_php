@@ -40,7 +40,12 @@ class Executioner extends Model
      */
     public function history()
     {
-        return $this->belongsToMany(History::class);
+        return $this->belongsToMany(
+            History::class,
+            'executioner_history',
+            'executioner_id',
+            'history_id'
+        );
     }
 
     public static function create(array $executioner): Executioner
