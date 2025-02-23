@@ -26,13 +26,15 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
 
-    Route::prefix('admin')->group(function () {
-        Route::apiResource('androids', AdminAndroidController::class);
-        Route::apiResource('executioners', ExecutionerController::class);
-        Route::apiResource('reports', AdminReportController::class);
-        Route::apiResource('operators', OperatorController::class);
-        Route::apiResource('assigned-androids', AssignedAndroidsController::class);
-        Route::apiResource('history', HistoryController::class);
+    Route::middleware('role:admin')->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::apiResource('androids', AdminAndroidController::class);
+            Route::apiResource('executioners', ExecutionerController::class);
+            Route::apiResource('reports', AdminReportController::class);
+            Route::apiResource('operators', OperatorController::class);
+            Route::apiResource('assigned-androids', AssignedAndroidsController::class);
+            Route::apiResource('history', HistoryController::class);
+        });
     });
 
     Route::prefix('common')->group(function () {
