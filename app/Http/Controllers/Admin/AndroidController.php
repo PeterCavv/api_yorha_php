@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Androids\StoreAndroidRequest;
 use App\Http\Requests\Androids\UpdateAndroidRequest;
+use App\Http\Requests\Executioners\ExecuteAndroidExecutionerRequest;
 use App\Http\Resources\Androids\AndroidCollection;
 use App\Http\Resources\Androids\AndroidResource;
 use App\Models\Android;
@@ -53,7 +54,11 @@ class AndroidController extends Controller
         return new AndroidResource($android);
     }
 
-    public function destroy($id) {
+    public function destroy(ExecuteAndroidExecutionerRequest $request, $id) {
+        $validated = $request->validated();
+
+        $executionerIds = $validated['executioners_id'];
+
         $android = Android::findOrFail($id);
         $android->delete();
 

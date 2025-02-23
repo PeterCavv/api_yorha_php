@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -35,11 +36,11 @@ class Executioner extends Model
 
     /**
      * An Executioner can have many histories.
-     * @return HasMany
+     * @return BelongsToMany
      */
     public function history()
     {
-        return $this->hasMany(History::class);
+        return $this->belongsToMany(History::class);
     }
 
     public static function create(array $executioner): Executioner

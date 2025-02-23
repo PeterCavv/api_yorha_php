@@ -9,6 +9,17 @@ class AndroidResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        return $this->detailedFormat();
+    }
+
+    public function basicFormat(){
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
+    }
+
+    public function detailedFormat(){
         return [
             'name' => $this->name,
             'resume_name' => $this->resume_name,
@@ -32,4 +43,5 @@ class AndroidResource extends JsonResource
             ]
         ];
     }
+
 }
