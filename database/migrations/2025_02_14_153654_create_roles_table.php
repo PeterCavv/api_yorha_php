@@ -8,18 +8,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->text('description');
-            $table->timestamps();
-        });
-
-        DB::table('roles')->insert([
-            ['name' => 'ADMIN', 'description' => 'Admin'],
-            ['name' => 'OPERATOR', 'description' => 'Operator'],
-            ['name' => 'EXECUTIONER', 'description' => 'Executioner'],
-        ]);
+//        Schema::create('roles', function (Blueprint $table) {
+//            $table->id();
+//            $table->string('name')->unique();
+//            $table->text('description');
+//            $table->timestamps();
+//        });
+//
+//        DB::table('roles')->insert([
+//            ['name' => 'ADMIN', 'description' => 'Admin'],
+//            ['name' => 'OPERATOR', 'description' => 'Operator'],
+//            ['name' => 'EXECUTIONER', 'description' => 'Executioner'],
+//        ]);
     }
 
     public function down(): void

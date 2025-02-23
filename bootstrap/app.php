@@ -6,9 +6,12 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,6 +28,12 @@ return Application::configure(basePath: dirname(__DIR__))
 //        $middleware->alias([
 //            'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
 //        ]);
+
+        $middleware->alias([
+            'role' => RoleMiddleware::class,
+            'permission' => PermissionMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+        ]);
 
         $middleware->statefulApi();
         $middleware->prependToGroup('api', AlwaysAcceptJsonMiddleware::class);
@@ -50,6 +59,13 @@ return Application::configure(basePath: dirname(__DIR__))
                     'error' => 'Not found',
                     'message' => $e->getMessage(),
                 ], 500);
+        });
+
+        $exceptions->renderable(function (UnauthorizedException $e) {
+                return response()->json([
+                    'error' => 'Unauthorized',
+                    'message' => $e->getMessage(),
+                ], 403);
         });
 
         return response()->json([
