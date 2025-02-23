@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OperatorController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Common\AndroidController as CommonAndroidController;
 use App\Http\Controllers\Common\AppearanceController;
+use App\Http\Controllers\Common\ArmoryController;
 use App\Http\Controllers\Common\ModelController;
 use App\Http\Controllers\Common\ReportController as CommonReportController;
 use App\Http\Controllers\Common\StatusController;
@@ -35,4 +36,5 @@ Route::prefix('common')->group(function () {
     Route::get('statuses', StatusController::class);
     Route::get('appearances', AppearanceController::class);
     Route::get('models', ModelController::class);
+    Route::get('armory', ArmoryController::class);
 });

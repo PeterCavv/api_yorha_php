@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AssignedAndroidsRequest;
+use App\Http\Requests\AssignedAndroids\AssignedAndroidsRequest;
 use App\Http\Resources\AssignedAndroids\AssignedAndroidsCollection;
 use App\Http\Resources\AssignedAndroids\AssignedAndroidsResource;
 use App\Models\AssignedAndroids;
