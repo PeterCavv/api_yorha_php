@@ -21,8 +21,7 @@ class History extends Model
         return $this->belongsTo(Android::class)->withTrashed();
     }
 
-
-    public function executioner()
+    public function executioners()
     {
         return $this->belongsToMany(
             Executioner::class,

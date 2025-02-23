@@ -13,7 +13,7 @@ class HistoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'executioners' => ExecutionerResource::collection($this->executioner),
+            'executioners' => ExecutionerResource::collection($this->executioners),
             'android' => (new AndroidResource($this->android))->basicFormat(),
             'summary' => $this->summary ?? null,
             'executed_at' => $this->created_at,
