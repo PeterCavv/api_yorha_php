@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('role_id')->constrained();
-            $table->foreignId('android_id')->constrained(); 
             $table->timestamps();
         });
 
