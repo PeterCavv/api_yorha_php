@@ -15,8 +15,8 @@ class ReportResource extends JsonResource
             'body' => $this->body,
             'published_at' => $this->published_at,
             'owner' => [
-                'id' => $this->android_id,
-                'name' => $this->android ? $this->android->name : null,
+                'id' => $this->user_id,
+                'name' => $this->user ? $this->user->name : null,
             ]
         ];
     }

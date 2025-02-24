@@ -41,6 +41,9 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request){
         $reportData = $request->validated();
 
+        $userId = ['user_id' => auth()->user()->id];
+        $reportData = array_merge($reportData, $userId);
+
         $report = Report::create($reportData);
 
         return new ReportResource($report);
