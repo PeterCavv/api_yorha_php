@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, softDeletes;
 
-    protected $fillable = ['title', 'body', 'published_at', 'android_id'];
+    protected $fillable = ['title', 'body', 'published_at', 'user_id'];
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
@@ -24,16 +24,12 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function android(){
-        return $this->belongsTo(Android::class)->withTrashed();
-    }
-
     public static function create(array $report): Report{
         $newReport = new self();
         $newReport->title = $report['title'];
         $newReport->body = $report['body'];
         $newReport->published_at = $report['published_at'];
-        $newReport->android_id = $report['android_id'];
+        $newReport->user_id = $report['user_id'];
         $newReport->save();
         return $newReport;
     }
