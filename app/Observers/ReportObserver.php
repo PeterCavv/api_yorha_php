@@ -31,7 +31,7 @@ class ReportObserver
     {
         $today = Carbon::today()->setTime(0, 0,0)->format('Y-m-d');
         $reportDate = Carbon::parse($report->published_at)->setTime(0, 0,0);
-        
+
         if($reportDate->greaterThan($today) && auth()->user()->id === $report->user_id){
             $report->forceDelete();
         }

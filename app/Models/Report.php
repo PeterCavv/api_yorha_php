@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CreatedReportEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,10 @@ class Report extends Model
     protected $fillable = ['title', 'body', 'published_at', 'user_id'];
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
+
+    protected $dispatchesEvents = [
+        'created' => CreatedReportEvent::class,
+    ];
 
     /**
      * One report has only one creator.
